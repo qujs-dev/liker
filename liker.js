@@ -1,5 +1,5 @@
 ﻿﻿/*!
- * Liker v1.0
+ * Liker v1.0.3
  * Universal voting/rating library
  *  
  * @author Serge Galich
@@ -1008,6 +1008,14 @@
                 }
                 Constructor._setVotes(votes);
                 Constructor._updateAllInstancesFromStorage();
+
+                if (Constructor._channel) {
+                    Constructor._channel.postMessage({
+                        type: 'liker_sync',
+                        votes: votes
+                    });
+                }
+
                 return votes;
             } else {
                 throw new Error(result.message || 'Sync failed');
