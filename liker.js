@@ -1,18 +1,18 @@
 ﻿﻿/*!
- * Liker v1.0.3
+ * Liker v1.0.4
  * Universal voting/rating library
  *  
  * @author Serge Galich
  * @license MIT
  * @website http://qujs.ru/liker/
  */
-(function(global) {
+(function (window, document) {
     'use strict';
     const LIB_NAME = 'Liker';
     const DATA_PREFIX = 'qu-liker';
 
-    if (global.Qu && global.Qu[LIB_NAME]) {
-        global.Qu.debug(`⚠️ [${LIB_NAME}] Already registered`);
+    if (window.Qu && window.Qu[LIB_NAME]) {
+        window.Qu.debug(`⚠️ [${LIB_NAME}] Already registered`);
         return;
     }
 
@@ -172,9 +172,9 @@
     };
 
     Constructor.extend = function() {
-        if (Array.isArray(global[LIB_NAME + 'Extend'])) {
-            global[LIB_NAME + 'Extend'].forEach(fn => Constructor.use(fn));
-            global[LIB_NAME + 'Extend'] = [];
+        if (Array.isArray(window[LIB_NAME + 'Extend'])) {
+            window[LIB_NAME + 'Extend'].forEach(fn => Constructor.use(fn));
+            window[LIB_NAME + 'Extend'] = [];
         }
     };
 
@@ -1047,11 +1047,11 @@
     };
 
     
-    if (global.Qu) {
-        global.Qu.lib(LIB_NAME, Constructor);
+    if (window.Qu) {
+        window.Qu.lib(LIB_NAME, Constructor);
     } else {
-        global._QuLibs = global._QuLibs || [];
-        global._QuLibs.push({ name: LIB_NAME, instance: Constructor });
+        window._QuLibs = window._QuLibs || [];
+        window._QuLibs.push({ name: LIB_NAME, instance: Constructor });
     }
 
-})(typeof window !== 'undefined' ? window : global);
+})(window, document);
