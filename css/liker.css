@@ -117,6 +117,7 @@
 [data-qu-liker-emoji-trigger],
 [data-qu-liker-btn] {
     all: initial;
+    outline: none !important;
     display: inline-flex;
     align-items: center;
     justify-content: center;
