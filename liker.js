@@ -1,5 +1,5 @@
 ﻿﻿/*!
- * Liker v1.0.5
+ * Liker v1.0.6
  * Universal voting/rating library
  *  
  * @author Serge Galich
@@ -22,9 +22,10 @@
 
     const _defaultConfig = {
         action_url: '',
-        use_grecaptcha: false,
-        gre_captcha_action: 'liker',
-        gre_captcha_token_input: '',
+        enable_captcha: false,
+        captcha_provider: 'YaSmartCaptcha',
+        captcha_action: 'liker',
+        captcha_token_input: '', 
 
         storage_key: 'liker_votes',
         channel_key: 'liker_voted',
@@ -157,9 +158,11 @@
                 warning: (msg, opts) => alert((opts?.title || '⚠️') + '\n\n' + msg)
             };
         },
-        get GreCaptcha() {
-            return (Qu && Qu.GreCaptcha) ? Qu.GreCaptcha : null;
-        }
+        get Captcha() {
+            return function(name) {
+                return Qu ? Qu[name] : null;
+            }
+        },
     };
 
     Constructor.debug = function(...args) {
@@ -794,21 +797,23 @@
                     formData.append(this.value_field, value);
                 }
 
-                if (this.use_grecaptcha && Constructor._Qu.GreCaptcha) {
-                    const grecaptcha = Constructor._Qu.GreCaptcha;
-                    if (grecaptcha._config?.enabled && grecaptcha._config?.siteKey) {
+                if (this.enable_captcha) {
+                    const providerName = this.captcha_provider || 'YaSmartCaptcha';
+                    const captcha = Constructor._Qu.Captcha(providerName);
+                    
+                    if (captcha && captcha._config && captcha._config.enabled && captcha._config.siteKey) {
                         try {
-                            const token = await grecaptcha.check(this.gre_captcha_action || 'liker');
-                            const tokenField = this.gre_captcha_token_input 
-                                            || grecaptcha._config?.tokenInput 
-                                            || 'g-recaptcha-response';
-                            formData.append(tokenField, token);
+                            const action = this.captcha_action || 'liker';
+                            const token = await captcha.check(action);
+                            const tokenInput = this.captcha_token_input 
+                                            || captcha._config?.tokenInput 
+                                            || 'smart-token';
+                            formData.append(tokenInput, token);
                         } catch (e) {
-                            Constructor.debug('❌ GreCaptcha failed:', e);
                             this._showMessage('error', { 
-                                message: e.message || this.config.lexicon.error_captcha  
+                                message: e.message || this.config.lexicon.error_captcha 
                             });
-                            return; 
+                            return;
                         }
                     }
                 }
