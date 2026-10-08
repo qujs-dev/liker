@@ -1,4 +1,4 @@
-﻿﻿/*!
+﻿/*!
  * Liker v1.0.6
  * Universal voting/rating library
  *  
