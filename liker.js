@@ -1,5 +1,5 @@
-﻿/*!
- * Liker v1.0.8
+/*!
+ * Liker v1.0.9
  * Universal voting/rating library
  *  
  * @author Serge Galich
@@ -46,7 +46,8 @@
         },
 
         disableNotifier: false,
-        notifyer: {
+
+        Notifyer: {
             default: { position: 'center-center' },
             success: { autohide: true },
             error: { autohide: false }
@@ -964,23 +965,23 @@
 
         const notifyType = data.data?.notify_type || type;
 
-        let options = Object.assign({ title }, cfg.notifyer.default);
+        let options = Object.assign({ title }, cfg.Notifyer.default);
 
         switch (notifyType) {
             case 'success':
-                options = Object.assign(options, cfg.notifyer.success);
+                options = Object.assign(options, cfg.Notifyer.success);
                 Constructor._Qu.Notifyer.success(message, options);
                 break;
             case 'error':
-                options = Object.assign(options, cfg.notifyer.error);
+                options = Object.assign(options, cfg.Notifyer.error);
                 Constructor._Qu.Notifyer.error(message, options);
                 break;
             case 'info':
-                options = Object.assign(options, cfg.notifyer.info || {});
+                options = Object.assign(options, cfg.Notifyer.info || {});
                 Constructor._Qu.Notifyer.info(message, options);
                 break;
             case 'warning':
-                options = Object.assign(options, cfg.notifyer.warning || {});
+                options = Object.assign(options, cfg.Notifyer.warning || {});
                 Constructor._Qu.Notifyer.warning(message, options);
                 break;
             default:
