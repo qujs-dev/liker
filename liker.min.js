@@ -1,5 +1,5 @@
 ﻿/*!
- * Liker v1.0.6
+ * Liker v1.0.8
  * Universal voting/rating library
  *  
  * @author Serge Galich
